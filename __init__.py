@@ -62,8 +62,9 @@ class Chrome:
             my_pass = 'peanuts'.encode('utf8')
             iterations = 1
             self.key = PBKDF2(my_pass, salt, length, iterations)
-            cookie_file = cookie_file or os.path.expanduser('~/.config/google-chrome/Default/Cookies') or \
-                                         os.path.expanduser('~/.config/chromium/Default/Cookies')
+            cookie_paths = [os.path.expanduser('~/.config/google-chrome/Default/Cookies'), os.path.expanduser('~/.config/chromium/Default/Cookies')]
+            cookie_file = cookie_file or os.path.isfile(cookie_paths[0]) and cookie_paths[0] or \
+                                         cookie_paths[1]
         elif sys.platform == 'win32':
             cookie_file = cookie_file or os.path.join(os.getenv('APPDATA', ''), '..\Local\Google\Chrome\User Data\Default\Cookies')
         else:
